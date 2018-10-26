@@ -1,0 +1,22 @@
+{
+  "name": "diploma-deisgn-prepare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiaobaiha/diploma-deisgn-prepare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiaobaiha/diploma-deisgn-prepare/issues"
+  },
+  "homepage": "https://github.com/xiaobaiha/diploma-deisgn-prepare#readme",
+  "dependencies": {
+    "d3-force": "^1.1.2"
+  }
+}
