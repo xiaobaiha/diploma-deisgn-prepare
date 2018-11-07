@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/Combining.js"],"names":["CombiningSignals"],"mappings":"AAAA,MAAMA,mBAAmB,CAAC,KAAD,EAAQ,KAAR,EAAe,MAAf,CAAzB;;AAEA,SAAQA,gBAAR","file":"Combining.js","sourcesContent":["const CombiningSignals = [\"all\", \"any\", \"none\"];\n\nexport {CombiningSignals};"]}
