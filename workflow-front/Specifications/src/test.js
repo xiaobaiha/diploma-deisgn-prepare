@@ -9,7 +9,7 @@ const result = Specifications({
             ["has", "bcd"],
             ["has", "a"]
         ],
-        ["==", "a", 1], 
+        ["==", "a", 2], 
         ["==", "b", 2],
         ["!=", "a",100],
         ["!has", "c"],
@@ -19,4 +19,4 @@ const result = Specifications({
         ["!in", 'b', 3,4,5]
     ]);
 
-console.log({result})
+console.log(result)
