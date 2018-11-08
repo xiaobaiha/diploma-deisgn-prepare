@@ -1,76 +1,87 @@
 const {checkMatch} = require('./ErrorMessage');
 
-const All = (ctx, func, ...assertions) => assertions.every(assertion => func.call(null, ctx, assertion));
+const All = (ctx, func, ...assertions) => {
+    const ifAllMatchArr = assertions.map(assertion => {
+        const funcResult = func.call(null, ctx, assertion);
+        return funcResult
+    }).filter(item => item!==true);
 
-const Any = (ctx, func, ...assertions) => assertions.some(assertion => func.call(null, ctx, assertion));
+    if (ifAllMatchArr.length === 0){
+        return true
+    } else {
+        const errMsg = checkMatch("all", ifAllMatchArr.length === 0) + '\n    Unexpected false: ' + (
+            ifAllMatchArr.join('\n    Unexpected false: ')
+        );
+        throw errMsg;
+    };
+};
 
-const None = (ctx, func, ...assertions) => assertions.every(assertion => !func.call(null, ctx, assertion));
+const Any = (ctx, func, ...assertions) => {
+    const ifAnyMatchArr = assertions.map(assertion => {
+        const funcResult = func.call(null, ctx, assertion);
+        return funcResult
+    }).filter(item => item!==true);
+    if (ifAnyMatchArr.length !== assertions.length){
+        return true 
+    } else {
+        const errMsg = checkMatch("any", ifAnyMatchArr.length !== assertions.length) + '\n    Unexpected all false: ' + (
+            ifAnyMatchArr.join('\n    Unexpected all false: ')
+        );
+        throw errMsg;
+    };
+};
+
+const None = (ctx, func, ...assertions) => {
+    const ifNoneMatchArr = assertions.map(assertion => {
+        const funcResult = func.call(null, ctx, assertion);
+        return funcResult
+    }).filter(item => item!==true);
+    if (ifNoneMatchArr.length === assertions.length){
+        return true 
+    } else {
+        const errMsg = checkMatch("none", ifNoneMatchArr.length === assertions.length);
+        throw errMsg;
+    };
+};
 
 const Has = (ctx, key) => {
-    return checkMatch("has", Object.keys(ctx).includes(key), key); // throw new Error(`Match Error(has): Target don't has key: ${key}.`)
-    // return true;
+    return checkMatch("has", Object.keys(ctx).includes(key), key); 
 };
 
 const NotHas = (ctx, key) => {
-    return checkMatch("!has", !Object.keys(ctx).includes(key), key); //&& throw new Error(`Match Error(!has): Target has key: ${key}.`)
-    // return true;
+    return checkMatch("!has", !Object.keys(ctx).includes(key), key); 
 };
 
 const Equal = (ctx, e1, e2) => {
-    // console.log({ctx, e1, e2})
     return checkMatch("==", ctx[e1] === e2, e1, e2);
-    // const ifEq = (ctx[e1] === e2);
-    // hrow new Error(`Match Error(==): Target.${key} is not equal to ${e2}.`)
-    // return true;
 };
 
 const NotEqual = (ctx, e1, e2) => {
-    checkMatch("!=", ctx[e1] !== e2, e1, e2);
-    // const ifNotEq = (ctx[e1] !== e2);
-    // throw new Error(`Match Error(!=): Target.${key} is equal to ${e2}.`)
-    // return true;
+    return checkMatch("!=", ctx[e1] !== e2, e1, e2);
 };
 
 const Greater = (ctx, e1, e2) => {
-    checkMatch(">", ctx[e1] > e2, e1, e2);
-    // const ifGreater = (ctx[e1] > e2);
-    // throw new Error(`Match Error(>): Target.${key} is not greater than ${e2}.`)
-    // return true;
+    return checkMatch(">", ctx[e1] > e2, e1, e2);
 };
 
 const Less = (ctx, e1, e2) => {
-    checkMatch("<", ctx[e1] < e2, e1, e2);
-    // const ifLess = (ctx[e1] < e2);
-    // throw new Error(`Match Error(<): Target.${key} is not less than ${e2}.`)
-    // return true;
+    return checkMatch("<", ctx[e1] < e2, e1, e2);
 };
 
 const GreaterAndEqual = (ctx, e1, e2) => {
-    checkMatch(">=", ctx[e1] >= e2, e1, e2);
-    // const ifGreaterAndEqual = (ctx[e1] >= e2);
-    // throw new Error(`Match Error(>=): Target.${key} is not greater than ${e2} or equal to ${e2}.`)
-    // return true;
+    return checkMatch(">=", ctx[e1] >= e2, e1, e2);
 };
 
 const LessAndEqual = (ctx, e1, e2) => {
-    checkMatch("<=", ctx[e1] <= e2, e1, e2);
-    // const ifLessAndEqual = (ctx[e1] <= e2);
-    // throw new Error(`Match Error(<=): Target.${key} is not less than ${e2} or equal to ${e2}.`)
-    // return true;
+    return checkMatch("<=", ctx[e1] <= e2, e1, e2);
 };
 
 const In = (ctx, key, ...set) => {
-    checkMatch("in", set.includes(ctx[key]), key);
-    // const ifIn = set.includes(ctx[key]);
-    //  throw new Error(`Match Error(in): Key: ${key} is not in the set.`)
-    // return true;
+    return checkMatch("in", set.includes(ctx[key]), key);
 };
 
 const NotIn = (ctx, key, ...set) => {
     return checkMatch("!in", !set.includes(ctx[key]), key);
-    // const ifNotIn = !set.includes(ctx[key]);
-    // throw new Error(`Match Error(!in): Key: ${key} is in the set.`)
-    // return true;
 };
 
 module.exports = {

@@ -22,8 +22,12 @@ const Check = (target, rules) => {
 
 const Specifications = (target, rules) => {
     try {
-        Check(target, rules);
-        return { result: true, message: "Match success."};
+        const result = Check(target, rules);
+        if (result === true){
+            return { result: true, message: "Match success."};
+        } else {
+            throw result;
+        }
     } catch (err)
     {
         return { result: false, message: err};

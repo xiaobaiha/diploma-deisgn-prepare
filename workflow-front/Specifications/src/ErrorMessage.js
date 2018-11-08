@@ -1,5 +1,4 @@
 const checkMatch = (checkType, flag, ...args) => {
-    // console.log({flag, checkType, args})
     if (flag) {
         return true;
     }
@@ -11,7 +10,6 @@ const checkMatch = (checkType, flag, ...args) => {
             return `Match Error(!has): Target has key: ${args[0]}.`;
             break;
         case "==":
-            console.log("Before error")
             return `Match Error(==): Target.${args[0]} is not equal to ${args[1]}.`;
             break;
         case "!=":
@@ -35,6 +33,12 @@ const checkMatch = (checkType, flag, ...args) => {
         case "!in":
             return `Match Error(!in): Key: ${args[0]} is in the set.`;
             break;
+        case "all":
+            return `Match Error(all): Not all sub item matches. Error(s) is as follows: `;
+        case "any":
+            return `Match Error(any): No sub item matches. Error(s) is as follows: `;
+        case "none":
+            return `Match Error(none): At least one item matches.`;
         default:
             return `Syntax Error(): Unknown check type: ${checkType}.`;
             break;
@@ -42,8 +46,10 @@ const checkMatch = (checkType, flag, ...args) => {
 };
 
 const checkSyntax = (checkType, key) => {
-    if (typeof key !== "string") {
-        throw new Error(`Syntax Error(${checkType}): The key in '${checkType}' check should be string type.`)
+    if (typeof checkType !== "string") {
+        throw `Syntax Error(${checkType}): Check type ${checkType} should be string type.`
+    } else if (typeof key !== "string") {
+        throw `Syntax Error(${checkType}): The key in '${checkType}' check should be string type.`
     }
 }
 
